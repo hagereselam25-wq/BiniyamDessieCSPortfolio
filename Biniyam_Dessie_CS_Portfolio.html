@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biniyam Dessie | Business & CS Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --body-bg: linear-gradient(135deg, #f0f2f5 0%, #e5e7eb 100%);
+            --text-main: #1a1a1a;
+            --text-muted: #4b5563;
+            --card-border: #1a1a1a;
+        }
+
+        /* Default to Dark Mode */
+        body {
+            --glass-bg: rgba(17, 24, 39, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --body-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-border: #000000;
+            
+            background: var(--body-bg);
+            background-attachment: fixed;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: var(--text-main);
+            transition: background 0.5s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        body.light {
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --body-bg: linear-gradient(135deg, #f0f2f5 0%, #e5e7eb 100%);
+            --text-main: #1a1a1a;
+            --text-muted: #4b5563;
+            --card-border: #1a1a1a;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .project-card {
+            background: var(--glass-bg);
+            border: 3px solid var(--card-border);
+            box-shadow: 8px 8px 0px var(--card-border);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .project-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 14px 14px 0px var(--card-border);
+        }
+
+        .btn-neo {
+            border: 2px solid var(--card-border);
+            box-shadow: 0px 4px 0px var(--card-border);
+            transition: all 0.2s ease;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-neo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: all 0.6s;
+        }
+
+        .btn-neo:hover::before {
+            left: 100%;
+        }
+
+        .btn-neo:active { transform: translateY(2px); box-shadow: 0px 2px 0px var(--card-border); }
+        .btn-yellow { background: #fbbf24; color: #000; }
+        .btn-blue { background: #3b82f6; color: #fff; }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 4px;
+            background: #f59e0b;
+            transition: width 0.3s ease;
+        }
+
+        .glass-card:hover .section-title::after {
+            width: 100%;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+        }
+
+        .skill-tag:hover {
+            background: #f59e0b;
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .blob {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(40px);
+            transition: transform 0.2s ease-out;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="blob top-0 left-0" id="blob1"></div>
+    <div class="blob bottom-0 right-0" id="blob2"></div>
+
+    <div class="max-w-5xl mx-auto space-y-8">
+        
+        <!-- Navigation -->
+        <nav class="glass-card p-4 flex justify-between items-center sticky top-4 z-50 rounded-2xl">
+            <div class="font-black text-xl tracking-tighter hover:scale-110 transition-transform cursor-pointer">BD.</div>
+            <div class="hidden md:flex space-x-8 font-bold opacity-80">
+                <a href="#about" class="hover:text-yellow-500 transition relative group">About<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-500 transition-all group-hover:w-full"></span></a>
+                <a href="#education" class="hover:text-yellow-500 transition relative group">Education<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-500 transition-all group-hover:w-full"></span></a>
+                <a href="#skills" class="hover:text-yellow-500 transition relative group">Skills<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-500 transition-all group-hover:w-full"></span></a>
+                <a href="#portfolio" class="hover:text-yellow-500 transition relative group">Projects<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-500 transition-all group-hover:w-full"></span></a>
+                <a href="#contact" class="hover:text-yellow-500 transition relative group">Contact<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-500 transition-all group-hover:w-full"></span></a>
+            </div>
+            <button id="themeToggle" class="w-10 h-10 rounded-xl bg-yellow-400/10 border border-yellow-400/30 flex items-center justify-center text-yellow-400 hover:rotate-12 transition-transform">
+                <i id="themeIcon" class="fas fa-moon"></i>
+            </button>
+        </nav>
+
+        <!-- Header -->
+        <header class="glass-card p-8 md:p-12 rounded-3xl flex flex-col md:flex-row items-center gap-10 reveal">
+            <div class="relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-yellow-400 to-red-500 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
+                <div class="relative w-32 h-32 md:w-44 md:h-44 rounded-full border-4 border-gray-800 overflow-hidden shadow-2xl bg-gray-900 transition-transform group-hover:scale-105">
+                    <img src="image.png" alt="Biniyam Dessie" class="w-full h-full object-cover">
+                </div>
+            </div>
+            <div class="text-center md:text-left">
+                <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-2">Biniyam Dessie</h1>
+                <h2 class="text-xl font-bold text-red-400 mb-6 uppercase tracking-widest">Computer Science Graduate</h2>
+                <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm font-semibold opacity-80">
+                    <span class="hover:text-yellow-500 transition-colors"><i class="fas fa-map-marker-alt text-yellow-500 mr-2"></i> Yeka, Addis Ababa</span>
+                    <span class="hover:text-green-500 transition-colors"><i class="fas fa-phone text-green-500 mr-2"></i> +251 907076841</span>
+                    <a href="mailto:biniyamdessie@gmail.com" class="hover:text-blue-500 transition-colors"><i class="fas fa-envelope text-blue-500 mr-2"></i> biniyamdessie@gmail.com</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Summary -->
+        <section id="about" class="glass-card p-8 md:p-10 rounded-3xl reveal">
+            <h3 class="section-title text-xl">Professional Profile</h3>
+            <div class="space-y-4 leading-relaxed text-lg opacity-90">
+                <p>I am a versatile professional with a multi-disciplinary background in <strong>Business Management and Computer Science</strong>. This unique foundation allows me to align technical innovation with organizational goals, effectively bridging the gap between growth strategies and software development.</p>
+                <p>I maintain a strong <strong>academic and practical stance</strong> in both disciplines. As a quick learner who adapts easily to new environments, I am committed to delivering excellence and solving complex problems in dynamic professional settings.</p>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="glass-card p-8 md:p-10 rounded-3xl reveal">
+            <h3 class="section-title text-xl">Education</h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="border-l-4 border-yellow-500 pl-6 py-2 group hover:bg-yellow-500/5 transition-colors rounded-r-lg">
+                    <h4 class="font-black text-lg">B.A. Business Management</h4>
+                    <p class="text-yellow-500 font-bold">GT College (2020 - 2024)</p>
+                    <p class="mt-1 opacity-80">Completed • Exit Exam Score: 71</p>
+                </div>
+                <div class="border-l-4 border-blue-500 pl-6 py-2 group hover:bg-blue-500/5 transition-colors rounded-r-lg">
+                    <h4 class="font-black text-lg">B.Sc. Computer Science</h4>
+                    <p class="text-blue-500 font-bold">University of Gondar (2020 - 2025)</p>
+                    <p class="mt-1 opacity-80">Completed • Exit Exam Score: 78</p>
+                </div>
+                <div class="border-l-4 border-red-500 pl-6 py-2 group hover:bg-red-500/5 transition-colors rounded-r-lg">
+                    <h4 class="font-black text-lg">Preparatory & High School</h4>
+                    <p class="text-red-500 font-bold">Debre Selam St. Mary School</p>
+                    <ul class="text-xs mt-2 space-y-1 opacity-70 uppercase font-bold tracking-wider">
+                        <li>Entrance Exam: 501</li>
+                        <li>High School Matric: 3.8</li>
+                        <li>8th Grade Ministry: 92%</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="project-card p-8 md:p-12 rounded-xl reveal">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-black uppercase tracking-tighter border-b-2 border-dashed border-gray-500 pb-2 inline-block">TECH STACK & COMPETENCIES</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="space-y-4">
+                    <h4 class="text-xs font-black text-blue-500 uppercase tracking-widest"><i class="fas fa-terminal mr-2"></i> Programming Languages</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS3</span>
+                        <span class="skill-tag">SQL</span>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-xs font-black text-green-500 uppercase tracking-widest"><i class="fas fa-lightbulb mr-2"></i> Core Competencies</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">Agile/Scrum</span>
+                        <span class="skill-tag">Communication</span>
+                        <span class="skill-tag">Leadership</span>
+                        <span class="skill-tag">Project Planning</span>
+                        <span class="skill-tag">Problem Solving</span>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-xs font-black text-red-500 uppercase tracking-widest"><i class="fas fa-certificate mr-2"></i> Specialized Skills</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">Web Development</span>
+                        <span class="skill-tag">Instructional Design</span>
+                        <span class="skill-tag">Digital Marketing</span>
+                        <span class="skill-tag">AI & Digital Literacy</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="portfolio" class="space-y-8 reveal">
+            <h3 class="text-2xl font-black uppercase tracking-widest text-center">Featured Projects</h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="project-card p-8 rounded-lg flex flex-col h-full bg-[#0d1117] text-white group">
+                    <h4 class="text-2xl font-black text-red-400 mb-4 uppercase group-hover:text-red-300 transition-colors">Qine Entertainment System</h4>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="skill-tag border-gray-600">Python</span>
+                        <span class="skill-tag border-gray-600">HTML</span>
+                        <span class="skill-tag border-gray-600">CSS</span>
+                        <span class="skill-tag border-gray-600">JS</span>
+                        <span class="skill-tag border-gray-600 text-blue-400">Django</span>
+                    </div>
+                    <p class="text-base text-gray-300 mb-6 flex-grow">A cinema reservation platform with automated email ticketing and multi-language admin interfaces.</p>
+                    <a href="https://github.com/hagereselam25-wq/qine_entertainment.git" target="_blank" class="btn-neo btn-blue w-full"><i class="fab fa-github"></i> Source</a>
+                </div>
+                <div class="project-card p-8 rounded-lg flex flex-col h-full group">
+                    <h4 class="text-2xl font-black text-green-600 mb-4 uppercase group-hover:text-green-500 transition-colors">Expense Tracker</h4>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">SQLite</span>
+                        <span class="skill-tag">HTML/CSS (Web View)</span>
+                        <span class="skill-tag text-green-600">MVC</span>
+                    </div>
+                    <p class="text-base opacity-90 mb-6 flex-grow">A desktop finance application with categorized expense logs and local DB persistence.</p>
+                    <a href="https://github.com/hagereselam25-wq/personal_expense_tracker.git" target="_blank" class="btn-neo btn-yellow w-full"><i class="fas fa-database"></i> Source</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Languages & Certs -->
+        <section class="grid md:grid-cols-2 gap-8 reveal">
+            <div class="glass-card p-8 rounded-3xl group">
+                <h4 class="font-black mb-4 uppercase text-xs tracking-widest text-yellow-500 group-hover:translate-x-2 transition-transform">Certificates</h4>
+                <div class="flex items-center gap-3 font-bold">
+                    <i class="fas fa-award text-2xl text-yellow-500 group-hover:scale-125 transition-transform"></i>
+                    <div>
+                        <p>Generative AI Productivity Skills</p>
+                        <p class="text-xs opacity-60">Microsoft / LinkedIn</p>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card p-8 rounded-3xl group">
+                <h4 class="font-black mb-4 uppercase text-xs tracking-widest text-blue-500 group-hover:translate-x-2 transition-transform">Languages</h4>
+                <div class="flex gap-6">
+                    <div class="group/lang">
+                        <p class="font-black group-hover/lang:text-blue-500 transition-colors">Amharic</p>
+                        <p class="text-xs opacity-60">Native</p>
+                    </div>
+                    <div class="group/lang">
+                        <p class="font-black group-hover/lang:text-blue-500 transition-colors">English</p>
+                        <p class="text-xs opacity-60">Fluent</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contact" class="glass-card p-10 rounded-3xl text-center reveal">
+            <h3 class="text-2xl font-black mb-8">LET'S BUILD SOMETHING EXCEPTIONAL</h3>
+            <a href="mailto:biniyamdessie@gmail.com" class="btn-neo btn-yellow text-lg px-10 py-4 transform hover:scale-105 transition-transform" id="magneticBtn">
+                <i class="fas fa-envelope"></i> Send Me An Email
+            </a>
+            <p class="mt-8 text-xs font-bold opacity-40 uppercase tracking-widest">&copy; 2024 Biniyam Dessie</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light');
+            themeIcon.classList.toggle('fa-moon');
+            themeIcon.classList.toggle('fa-sun');
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Parallax and Mouse Following Blobs
+        window.addEventListener('mousemove', (e) => {
+            const blob1 = document.getElementById('blob1');
+            const blob2 = document.getElementById('blob2');
+            
+            const x = (e.clientX / window.innerWidth - 0.5) * 60;
+            const y = (e.clientY / window.innerHeight - 0.5) * 60;
+            
+            blob1.style.transform = `translate(${x}px, ${y}px)`;
+            blob2.style.transform = `translate(${-x}px, ${-y}px)`;
+
+            // Subtle Magnetic Effect for main button
+            const mBtn = document.getElementById('magneticBtn');
+            const rect = mBtn.getBoundingClientRect();
+            const btnX = e.clientX - (rect.left + rect.width / 2);
+            const btnY = e.clientY - (rect.top + rect.height / 2);
+
+            if (Math.abs(btnX) < 100 && Math.abs(btnY) < 100) {
+                mBtn.style.transform = `translate(${btnX * 0.2}px, ${btnY * 0.2}px) scale(1.05)`;
+            } else {
+                mBtn.style.transform = `translate(0px, 0px) scale(1)`;
+            }
+        });
+
+        // Reveal animations on scroll
+        const reveal = () => {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const revealTop = el.getBoundingClientRect().top;
+                const revealPoint = 150;
+                if (revealTop < windowHeight - revealPoint) {
+                    el.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
+    </script>
+</body>
+</html>
